@@ -12,8 +12,6 @@
 
 <title>Diário Chile 🦙</title>
 
-<link rel="manifest" href="manifest.json">
-
 <meta name="theme-color" content="#0d47a1">
 
 <style>
@@ -208,7 +206,7 @@
     return {
       cover:true,
       setupDone:false,
-      people:["Você","Namorado"],
+      people:["Voce","Namorado"],
       initial:{ p1:0, p2:0 },
       transactions:[],
       checklist:[],
@@ -280,7 +278,7 @@
   };
 
   window.finishSetup = function(){
-     var n1 = document.getElementById("name1").value.trim() || "Você";
+    var n1 = document.getElementById("name1").value.trim() || "Voce";
     var n2 = document.getElementById("name2").value.trim() || "Namorado";
     var p1 = parseFloat(document.getElementById("init1").value) || 0;
     var p2 = parseFloat(document.getElementById("init2").value) || 0;
@@ -292,40 +290,22 @@
     render();
   };
 
-
   window.openSettings = function(){
     currentTab = "config";
+    depositOpen = false;
     render();
   };
 
-
   window.saveSettings = function(){
-
-    var n1 = document.getElementById("edit-name1").value.trim() || "Você";
+    var n1 = document.getElementById("edit-name1").value.trim() || "Voce";
     var n2 = document.getElementById("edit-name2").value.trim() || "Namorado";
-
     var p1 = parseFloat(document.getElementById("edit-init1").value) || 0;
     var p2 = parseFloat(document.getElementById("edit-init2").value) || 0;
-
     state.people = [n1, n2];
-
-    state.initial = {
-      p1: p1,
-      p2: p2
-    };
-
+    state.initial = { p1: p1, p2: p2 };
     save();
-
     currentTab = "carteira";
-
-render();
-
-};
-
-window.openSettings = function(){
-  currentTab = "config";
-  depositOpen = false;
-  render();
+    render();
   };
 
   window.switchTab = function(tab){
@@ -376,7 +356,7 @@ window.openSettings = function(){
       type: "deposit",
       person: personEl ? personEl.value : "p1",
       amount: amount,
-      desc: (descEl.value.trim() || "reforço de saldo"),
+      desc: (descEl.value.trim() || "reforco de saldo"),
       date: new Date().toISOString()
     });
     save();
@@ -434,7 +414,7 @@ window.openSettings = function(){
       var lbl = dayLabel(iso);
       state.transactions.unshift({
         id: "day-" + id,
-        desc: text + " · " + lbl.num + " " + lbl.month,
+        desc: text + " - " + lbl.num + " " + lbl.month,
         amount: cost,
         forWhom: activity.costWho,
         category: "passeio",
@@ -475,13 +455,13 @@ window.openSettings = function(){
       '<div class="cover">' +
         '<div class="tape1"></div><div class="tape2"></div>' +
         '<div class="cover-stickers">🦙 ⛰️ 🌵 ⭐</div>' +
-        '<div class="cover-badge">diário de viagem</div>' +
+        '<div class="cover-badge">diario de viagem</div>' +
         '<div class="cover-title">Chile</div>' +
-        '<div class="cover-dates">10 → 17 de agosto, 2026</div>' +
+        '<div class="cover-dates">10 a 17 de agosto, 2026</div>' +
         '<div class="cover-card">' +
           '<div class="tape-small"></div>' +
-          '<p class="cover-text">Um caderninho pra organizar a carteira compartilhada, a mala e o que vamos fazer em cada dia. Bora começar?</p>' +
-          '<button class="primary-btn" onclick="openDiary()">Abrir o diário 🦙</button>' +
+          '<p class="cover-text">Um caderninho pra organizar a carteira compartilhada, a mala e o que vamos fazer em cada dia. Bora comecar?</p>' +
+          '<button class="primary-btn" onclick="openDiary()">Abrir o diario 🦙</button>' +
         '</div>' +
       '</div>'
     );
@@ -493,9 +473,9 @@ window.openSettings = function(){
       '<div class="rel" style="min-height:100vh;">' +
         '<div class="setup-card">' +
           '<div class="tape-small"></div>' +
-          '<div class="eyebrow">primeira página ✏️</div>' +
-          '<h1 class="h1">Quem vai colocar o quê?</h1>' +
-          '<p class="subtext">Uma conta Wise, dois nomes. Só pra saber o saldo certinho de cada um durante a viagem.</p>' +
+          '<div class="eyebrow">primeira pagina</div>' +
+          '<h1 class="h1">Quem vai colocar o que?</h1>' +
+          '<p class="subtext">Uma conta Wise, dois nomes. So pra saber o saldo certinho de cada um durante a viagem.</p>' +
           '<div class="field-row">' +
             '<div class="field">' +
               '<label class="label">pessoa 1</label>' +
@@ -508,7 +488,7 @@ window.openSettings = function(){
               '<input class="input" id="init2" type="number" min="0" step="1" inputmode="numeric" placeholder="quanto colocou (CLP)">' +
             '</div>' +
           '</div>' +
-          '<button class="primary-btn" onclick="finishSetup()">Começar a viagem 🏔️</button>' +
+          '<button class="primary-btn" onclick="finishSetup()">Comecar a viagem 🏔️</button>' +
         '</div>' +
       '</div>'
     );
@@ -542,64 +522,50 @@ window.openSettings = function(){
 
   function mainHTML(){
     var html = '<div class="rel">';
-    html += '<div class="top-row"><div><div class="greet-label">diário do Chile</div><div class="greet-title">🦙 boa viagem!</div></div></div>';
+    html += '<div class="top-row"><div><div class="greet-label">diario do Chile</div><div class="greet-title">🦙 boa viagem!</div></div></div>';
     html += '<nav class="tab-bar">' +
-      '<button class="tab-btn' + (currentTab==="carteira"?" active":"") + '" style="' + (currentTab==="carteira"?"background:"+"#E0899A":"") + '" onclick="switchTab(\'carteira\')">👛 Carteira</button>' +
-      '<button class="tab-btn' + (currentTab==="checklist"?" active":"") + '" style="' + (currentTab==="checklist"?"background:"+"#5C8B4A":"") + '" onclick="switchTab(\'checklist\')">✅ Checklist</button>' +
-      '<button class="tab-btn' + (currentTab==="calendario"?" active":"") + '" style="' + (currentTab==="calendario"?"background:"+"#B0813A":"") + '" onclick="switchTab(\'calendario\')">🗓️ Roteiro</button>' +
+      '<button class="tab-btn' + (currentTab==="carteira"?" active":"") + '" style="' + (currentTab==="carteira"?"background:#E0899A":"") + '" onclick="switchTab(\'carteira\')">👛 Carteira</button>' +
+      '<button class="tab-btn' + (currentTab==="checklist"?" active":"") + '" style="' + (currentTab==="checklist"?"background:#5C8B4A":"") + '" onclick="switchTab(\'checklist\')">✅ Checklist</button>' +
+      '<button class="tab-btn' + (currentTab==="calendario"?" active":"") + '" style="' + (currentTab==="calendario"?"background:#B0813A":"") + '" onclick="switchTab(\'calendario\')">🗓️ Roteiro</button>' +
       '</nav>';
-html += '<button class="deposit-open-btn" onclick="openSettings()">⚙️ Editar nomes e valores</button>';
-    
-   if(currentTab === "carteira") {
-  html += carteiraHTML();
-}
-else if(currentTab === "checklist") {
-  html += checklistHTML();
-}
-else if(currentTab === "calendario") {
-  html += roteiroHTML();
-}
-else if(currentTab === "config") {
-  html += settingsHTML();
-}
+    html += '<button class="deposit-open-btn" onclick="openSettings()">⚙️ Editar nomes e valores</button>';
 
-    html += '<div class="footer-note">seus dados ficam salvos só neste navegador, neste aparelho</div>';
+    if(currentTab === "carteira") {
+      html += carteiraHTML();
+    }
+    else if(currentTab === "checklist") {
+      html += checklistHTML();
+    }
+    else if(currentTab === "calendario") {
+      html += roteiroHTML();
+    }
+    else if(currentTab === "config") {
+      html += settingsHTML();
+    }
+
+    html += '<div class="footer-note">seus dados ficam salvos so neste navegador, neste aparelho</div>';
     html += '</div>';
     return html;
   }
 
-
   function settingsHTML(){
-
     var p = state.people;
-
     return (
-
       '<div class="card">' +
-
-      '<div class="card-title">⚙️ Configurações</div>' +
-
+      '<div class="card-title">⚙️ Configuracoes</div>' +
       '<label class="label">Nome pessoa 1</label>' +
       '<input class="input" id="edit-name1" value="' + esc(p[0]) + '">' +
-
       '<label class="label">Saldo inicial pessoa 1 (CLP)</label>' +
       '<input class="input" id="edit-init1" type="number" value="' + state.initial.p1 + '">' +
-
       '<label class="label">Nome pessoa 2</label>' +
       '<input class="input" id="edit-name2" value="' + esc(p[1]) + '">' +
-
       '<label class="label">Saldo inicial pessoa 2 (CLP)</label>' +
       '<input class="input" id="edit-init2" type="number" value="' + state.initial.p2 + '">' +
-
-      '<button class="primary-btn" onclick="saveSettings()">' +
-      'Salvar alterações 💾' +
-      '</button>' +
-
+      '<button class="primary-btn" onclick="saveSettings()">Salvar alteracoes 💾</button>' +
       '</div>'
-
     );
-
   }
+
   function carteiraHTML(){
     var b = computeBudget();
     var people = state.people;
@@ -607,11 +573,11 @@ else if(currentTab === "config") {
 
     html += '<div class="hero-card">' +
       '<div class="tape-small"></div>' +
-      '<div class="hero-label">ainda dá pra gastar</div>' +
+      '<div class="hero-label">ainda da pra gastar</div>' +
       '<div class="hero-value">' + fmt(b.totalRemaining) + '</div>' +
-      '<div class="hero-sub">colocado ao todo ' + fmt(b.totalPot) + ' · já foi ' + fmt(b.totalSpent) + '</div>' +
+      '<div class="hero-sub">colocado ao todo ' + fmt(b.totalPot) + ' - ja foi ' + fmt(b.totalSpent) + '</div>' +
       '<div class="hero-divider"></div>' +
-      '<div class="race-label">' + (b.gap < 2 ? "gastos bem equilibrados ⚖️" : (esc(b.leaderIsP1?people[0]:people[1]) + " gastando mais rápido 🐎")) + '</div>' +
+      '<div class="race-label">' + (b.gap < 2 ? "gastos bem equilibrados ⚖️" : (esc(b.leaderIsP1?people[0]:people[1]) + " gastando mais rapido 🐎")) + '</div>' +
       '<div class="race-track"><div class="race-fill" style="width:' + (b.leaderIsP1 ? 50+b.gap/2 : 50-b.gap/2) + '%"></div><div class="race-center"></div></div>' +
       '</div>';
 
@@ -621,20 +587,20 @@ else if(currentTab === "config") {
       '</div>';
 
     if(b.remainingP1 < 0 || b.remainingP2 < 0){
-      html += '<div class="warning">' + (b.remainingP1<0 ? esc(people[0]) : esc(people[1])) + ' já passou do valor reservado 💸</div>';
+      html += '<div class="warning">' + (b.remainingP1<0 ? esc(people[0]) : esc(people[1])) + ' ja passou do valor reservado 💸</div>';
     }
 
     if(!depositOpen){
       html += '<button class="deposit-open-btn" onclick="toggleDepositForm(true)">🐷 adicionar mais dinheiro na conta</button>';
     } else {
       html += '<div class="deposit-card">' +
-        '<div class="card-title">🐷 reforçar o saldo</div>' +
+        '<div class="card-title">🐷 reforcar o saldo</div>' +
         '<div class="whom-row">' +
           '<input class="whom-radio" type="radio" name="dep-person" id="dep-p1" value="p1" checked><label class="whom-btn" for="dep-p1">' + esc(people[0]) + '</label>' +
           '<input class="whom-radio" type="radio" name="dep-person" id="dep-p2" value="p2"><label class="whom-btn" for="dep-p2">' + esc(people[1]) + '</label>' +
         '</div>' +
         '<input class="input" id="dep-amount" type="number" min="0" step="1" inputmode="numeric" placeholder="valor CLP" onkeydown="if(event.key===\'Enter\')addDeposit()">' +
-        '<input class="input" id="dep-desc" placeholder="nota (opcional) — ex: transferi mais na Wise" onkeydown="if(event.key===\'Enter\')addDeposit()">' +
+        '<input class="input" id="dep-desc" placeholder="nota (opcional) - ex: transferi mais na Wise" onkeydown="if(event.key===\'Enter\')addDeposit()">' +
         '<div style="display:flex; gap:8px;">' +
           '<button class="primary-btn sage" onclick="addDeposit()">+ adicionar</button>' +
           '<button class="cancel-btn" onclick="toggleDepositForm(false)">cancelar</button>' +
@@ -644,7 +610,7 @@ else if(currentTab === "config") {
 
     html += '<div class="card">' +
       '<div class="card-title">✏️ registrar um gasto</div>' +
-      '<input class="input" id="exp-desc" placeholder="descrição — ex: jantar em Valparaíso" onkeydown="if(event.key===\'Enter\')addTransaction()">' +
+      '<input class="input" id="exp-desc" placeholder="descricao - ex: jantar em Valparaiso" onkeydown="if(event.key===\'Enter\')addTransaction()">' +
       '<input class="input" id="exp-amount" type="number" min="0" step="1" inputmode="numeric" placeholder="valor CLP" onkeydown="if(event.key===\'Enter\')addTransaction()">' +
       '<div class="cat-row">' + CATS.map(function(c,i){
         return '<input class="chip-radio" type="radio" name="exp-cat" id="cat-'+c.id+'" value="'+c.id+'"' + (i===0?" checked":"") + '>' +
@@ -658,7 +624,7 @@ else if(currentTab === "config") {
       '<button class="primary-btn" onclick="addTransaction()">+ Adicionar gasto</button>' +
       '</div>';
 
-    html += '<div class="card"><div class="card-title">📖 tudo que já rolou</div>';
+    html += '<div class="card"><div class="card-title">📖 tudo que ja rolou</div>';
     if(state.transactions.length === 0){
       html += '<div class="empty-state">Ainda nada por aqui.</div>';
     }
@@ -701,12 +667,12 @@ else if(currentTab === "config") {
     var total = state.checklist.length;
     var pct = total ? (done/total)*100 : 0;
     var html = '<div class="card"><div class="tape-small"></div>' +
-      '<div class="card-title">🧳 já pegamos tudo?</div>' +
+      '<div class="card-title">🧳 ja pegamos tudo?</div>' +
       '<div class="checklist-progress">' + done + ' de ' + total + ' prontos</div>' +
       '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
       '<div style="margin-top:16px;">';
     if(total === 0){
-      html += '<div class="empty-state">Nada na lista ainda — passaporte, adaptador, casaco...</div>';
+      html += '<div class="empty-state">Nada na lista ainda - passaporte, adaptador, casaco...</div>';
     }
     state.checklist.forEach(function(item){
       html += '<div class="check-row">' +
@@ -727,7 +693,7 @@ else if(currentTab === "config") {
 
   function roteiroHTML(){
     var people = state.people;
-    var html = '<div class="roteiro-intro"><div class="card-title">🗺️ roteiro da viagem</div><div class="roteiro-sub">10 → 17 de agosto, 2026</div></div>';
+    var html = '<div class="roteiro-intro"><div class="card-title">🗺️ roteiro da viagem</div><div class="roteiro-sub">10 a 17 de agosto, 2026</div></div>';
 
     TRIP_DATES.forEach(function(iso, idx){
       var lbl = dayLabel(iso);
@@ -735,7 +701,7 @@ else if(currentTab === "config") {
       var rotate = idx % 2 === 0 ? -1.2 : 1.2;
       html += '<div class="day-card" style="transform:rotate(' + rotate + 'deg)">' +
         '<div class="tape-small"></div>' +
-        '<div class="day-header"><div class="day-num">' + lbl.num + '</div><div><div class="day-weekday">' + esc(lbl.weekday) + '</div><div class="day-month">' + esc(lbl.month) + ' · 2026</div></div></div>';
+        '<div class="day-header"><div class="day-num">' + lbl.num + '</div><div><div class="day-weekday">' + esc(lbl.weekday) + '</div><div class="day-month">' + esc(lbl.month) + ' - 2026</div></div></div>';
 
       if(items.length === 0){
         html += '<div class="empty-state-small">nada planejado ainda 🌱</div>';
@@ -743,13 +709,13 @@ else if(currentTab === "config") {
       items.forEach(function(it){
         html += '<div class="day-item-row"><span class="day-item-dot">' + (it.cost>0?"🎟️":"📍") + '</span>' +
           '<span class="day-item-text">' + esc(it.text) +
-          (it.cost>0 ? (' <span class="day-item-cost">· ' + fmt(it.cost) + ' (' + (it.costWho==="split"?"dividido":(it.costWho==="p1"?esc(people[0]):esc(people[1]))) + ')</span>') : "") +
+          (it.cost>0 ? (' <span class="day-item-cost">- ' + fmt(it.cost) + ' (' + (it.costWho==="split"?"dividido":(it.costWho==="p1"?esc(people[0]):esc(people[1]))) + ')</span>') : "") +
           '</span>' +
           '<button class="del-btn" onclick="deleteDayActivity(\'' + iso + '\',\'' + it.id + '\',' + (it.txId ? "'"+it.txId+"'" : "null") + ')">✕</button>' +
           '</div>';
       });
 
-      html += '<input class="day-input" style="margin-top:10px" id="day-text-' + iso + '" placeholder="o que vão fazer nesse dia" onkeydown="if(event.key===\'Enter\')addDayActivity(\'' + iso + '\')">' +
+      html += '<input class="day-input" style="margin-top:10px" id="day-text-' + iso + '" placeholder="o que vao fazer nesse dia" onkeydown="if(event.key===\'Enter\')addDayActivity(\'' + iso + '\')">' +
         '<label class="cost-toggle"><input type="checkbox" id="has-cost-' + iso + '" onchange="toggleCostRow(\'' + iso + '\')" style="margin-right:6px"> vai custar ingresso / entrada?</label>' +
         '<div class="cost-row" id="cost-row-' + iso + '" style="display:none">' +
           '<input class="day-input" style="flex:1" id="day-cost-' + iso + '" type="number" min="0" step="1" inputmode="numeric" placeholder="valor CLP">' +
@@ -761,11 +727,10 @@ else if(currentTab === "config") {
         '</div>';
     });
 
-    html += '<div class="footer">oito dias, um roteiro só 🗓️</div>';
+    html += '<div class="footer">oito dias, um roteiro so 🗓️</div>';
     return html;
   }
 
-  // note: using a real select for cost-who per day (simpler than radios here since it is a compact row)
   function costRadios(iso, people){
     return '<option value="split">dividido</option>' +
       '<option value="p1">' + esc(people[0]) + '</option>' +
