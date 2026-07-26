@@ -319,7 +319,10 @@
     currentTab = "carteira";
 
     render();
-
+window.openSettings = function(){
+  currentTab = "config";
+  depositOpen = false;
+  render();
   };
 
   window.switchTab = function(tab){
