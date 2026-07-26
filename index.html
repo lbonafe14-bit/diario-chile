@@ -280,7 +280,7 @@
   };
 
   window.finishSetup = function(){
-    var n1 = document.getElementById("name1").value.trim() || "Você";
+     var n1 = document.getElementById("name1").value.trim() || "Você";
     var n2 = document.getElementById("name2").value.trim() || "Namorado";
     var p1 = parseFloat(document.getElementById("init1").value) || 0;
     var p2 = parseFloat(document.getElementById("init2").value) || 0;
@@ -290,6 +290,36 @@
     state.initial = { p1:p1, p2:p2 };
     save();
     render();
+  };
+
+
+  window.openSettings = function(){
+    currentTab = "config";
+    render();
+  };
+
+
+  window.saveSettings = function(){
+
+    var n1 = document.getElementById("edit-name1").value.trim() || "Você";
+    var n2 = document.getElementById("edit-name2").value.trim() || "Namorado";
+
+    var p1 = parseFloat(document.getElementById("edit-init1").value) || 0;
+    var p2 = parseFloat(document.getElementById("edit-init2").value) || 0;
+
+    state.people = [n1, n2];
+
+    state.initial = {
+      p1: p1,
+      p2: p2
+    };
+
+    save();
+
+    currentTab = "carteira";
+
+    render();
+
   };
 
   window.switchTab = function(tab){
@@ -512,7 +542,25 @@
       '<button class="tab-btn' + (currentTab==="checklist"?" active":"") + '" style="' + (currentTab==="checklist"?"background:"+"#5C8B4A":"") + '" onclick="switchTab(\'checklist\')">✅ Checklist</button>' +
       '<button class="tab-btn' + (currentTab==="calendario"?" active":"") + '" style="' + (currentTab==="calendario"?"background:"+"#B0813A":"") + '" onclick="switchTab(\'calendario\')">🗓️ Roteiro</button>' +
       '</nav>';
+        html += '<button class="deposit-open-btn" onclick="openSettings()">⚙️ Editar nomes e valores</button>';
 
+   if(currentTab === "carteira") {
+  html += carteiraHTML();
+}
+else if(currentTab === "checklist") {
+  html += checklistHTML();
+}
+else if(currentTab === "calendario") {
+  html += roteiroHTML();
+}
+else if(currentTab === "config") {
+  html += settingsHTML();
+}
+
+    html += '<div class="footer-note">seus dados ficam salvos só neste navegador, neste aparelho</div>';
+    html += '</div>';
+    return html;
+  }
     if(currentTab === "carteira") html += carteiraHTML();
     else if(currentTab === "checklist") html += checklistHTML();
     else html += roteiroHTML();
@@ -522,6 +570,38 @@
     return html;
   }
 
+
+  function settingsHTML(){
+
+    var p = state.people;
+
+    return (
+
+      '<div class="card">' +
+
+      '<div class="card-title">⚙️ Configurações</div>' +
+
+      '<label class="label">Nome pessoa 1</label>' +
+      '<input class="input" id="edit-name1" value="' + esc(p[0]) + '">' +
+
+      '<label class="label">Saldo inicial pessoa 1 (CLP)</label>' +
+      '<input class="input" id="edit-init1" type="number" value="' + state.initial.p1 + '">' +
+
+      '<label class="label">Nome pessoa 2</label>' +
+      '<input class="input" id="edit-name2" value="' + esc(p[1]) + '">' +
+
+      '<label class="label">Saldo inicial pessoa 2 (CLP)</label>' +
+      '<input class="input" id="edit-init2" type="number" value="' + state.initial.p2 + '">' +
+
+      '<button class="primary-btn" onclick="saveSettings()">' +
+      'Salvar alterações 💾' +
+      '</button>' +
+
+      '</div>'
+
+    );
+
+  }
   function carteiraHTML(){
     var b = computeBudget();
     var people = state.people;
