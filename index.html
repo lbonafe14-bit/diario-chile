@@ -318,7 +318,10 @@
 
     currentTab = "carteira";
 
-    render();
+render();
+
+};
+
 window.openSettings = function(){
   currentTab = "config";
   depositOpen = false;
@@ -545,8 +548,8 @@ window.openSettings = function(){
       '<button class="tab-btn' + (currentTab==="checklist"?" active":"") + '" style="' + (currentTab==="checklist"?"background:"+"#5C8B4A":"") + '" onclick="switchTab(\'checklist\')">✅ Checklist</button>' +
       '<button class="tab-btn' + (currentTab==="calendario"?" active":"") + '" style="' + (currentTab==="calendario"?"background:"+"#B0813A":"") + '" onclick="switchTab(\'calendario\')">🗓️ Roteiro</button>' +
       '</nav>';
-        html += '<button class="deposit-open-btn"html += '<button class="deposit-open-btn" onclick="alert(\'funcionou\')">⚙️ Editar nomes e valores</button>'; onclick="openSettings()">⚙️ Editar nomes e valores</button>';
-
+html += '<button class="deposit-open-btn" onclick="openSettings()">⚙️ Editar nomes e valores</button>';
+    
    if(currentTab === "carteira") {
   html += carteiraHTML();
 }
@@ -559,14 +562,6 @@ else if(currentTab === "calendario") {
 else if(currentTab === "config") {
   html += settingsHTML();
 }
-
-    html += '<div class="footer-note">seus dados ficam salvos só neste navegador, neste aparelho</div>';
-    html += '</div>';
-    return html;
-  }
-    if(currentTab === "carteira") html += carteiraHTML();
-    else if(currentTab === "checklist") html += checklistHTML();
-    else html += roteiroHTML();
 
     html += '<div class="footer-note">seus dados ficam salvos só neste navegador, neste aparelho</div>';
     html += '</div>';
