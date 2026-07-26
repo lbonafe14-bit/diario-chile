@@ -10,14 +10,14 @@
 
 <link rel="apple-touch-icon" href="icon.png">
 
-<title>DiÃ¡rio Chile</title>
+<title>Diário Chile</title>
 
 <meta name="theme-color" content="#0F1416">
 
 
 <style>
   :root{
-    /* ---- Chile: cobre do Atacama, azul andino, ouro mineral, vinho do sul, cÃ©u do deserto ---- */
+    /* ---- Chile: cobre do Atacama, azul andino, ouro mineral, vinho do sul, céu do deserto ---- */
     --bg:#0F1416;
     --bg-raised:#151B1E;
     --bg-card:#1A2124;
@@ -309,14 +309,14 @@
   ];
 
   var DAY_QUOTES = [
-    "cada dia Ã© uma pÃ¡gina nova pra escrever",
-    "o melhor roteiro Ã© o que ainda vai ser inventado",
-    "deixa um espaÃ§o pra se perder um pouco",
-    "as melhores fotos nascem do que nÃ£o foi planejado",
-    "viajar Ã© colecionar momentos, nÃ£o sÃ³ lugares",
-    "hoje pode ser sÃ³ andar sem destino certo",
-    "guarda esse dia pra uma aventura de Ãºltima hora",
-    "Ã s vezes o melhor plano Ã© nÃ£o ter plano"
+    "cada dia é uma página nova pra escrever",
+    "o melhor roteiro é o que ainda vai ser inventado",
+    "deixa um espaço pra se perder um pouco",
+    "as melhores fotos nascem do que não foi planejado",
+    "viajar é colecionar momentos, não só lugares",
+    "hoje pode ser só andar sem destino certo",
+    "guarda esse dia pra uma aventura de última hora",
+    "Às vezes o melhor plano é não ter plano"
   ];
 
   var TRIP_DATES = ["2026-08-10","2026-08-11","2026-08-12","2026-08-13","2026-08-14","2026-08-15","2026-08-16","2026-08-17"];
@@ -344,12 +344,12 @@
     return {
       cover:true,
       setupDone:false,
-      people:["VocÃª","Namorado"],
+      people:["Você","Namorado"],
       initial:{ p1:0, p2:0 },
       transactions:[],
       checklist:[],
       days:emptyDays(),
-      rate:0.0054 // BRL por 1 CLP - editÃ¡vel na aba CÃ¢mbio
+      rate:0.0054 // BRL por 1 CLP - editável na aba Câmbio
     };
   }
 
@@ -411,7 +411,7 @@
         state.people = Array.isArray(incoming.people) && incoming.people.length === 2 ? incoming.people : defaultState().people;
         state.rate = typeof incoming.rate === "number" && incoming.rate > 0 ? incoming.rate : defaultState().rate;
         save(); render();
-      }catch(e){ setBackupNote("NÃƒÂ£o consegui abrir esse backup. Escolha um arquivo gerado pelo DiÃƒÂ¡rio Chile."); }
+      }catch(e){ setBackupNote("Não consegui abrir esse backup. Escolha um arquivo gerado pelo Diário Chile."); }
       input.value = "";
     };
     reader.readAsText(file);
@@ -454,7 +454,7 @@
       var d = new Date(iso);
       var datePart = d.toLocaleDateString("pt-BR", { day:"2-digit", month:"2-digit" });
       var timePart = d.toLocaleTimeString("pt-BR", { hour:"2-digit", minute:"2-digit" });
-      return datePart + " Â· " + timePart;
+      return datePart + " · " + timePart;
     }catch(e){
       return "";
     }
@@ -491,7 +491,7 @@
       var dayNum = idx >= 0 ? idx + 1 : Math.round((new Date(todayISO + "T00:00:00") - new Date(start + "T00:00:00")) / 86400000) + 1;
       return { phase:"during", eyebrow:"estamos na viagem", value:dayNum, sub:"dia " + dayNum + " de 8" };
     }
-    return { phase:"after", eyebrow:"Chile Â· 2026", value:"â€”", sub:"a viagem jÃ¡ rolou, saudade" };
+    return { phase:"after", eyebrow:"Chile · 2026", value:"—", sub:"a viagem já rolou, saudade" };
   }
 
   var countdownInterval = null;
@@ -534,7 +534,7 @@
   };
 
   window.finishSetup = function(){
-    var n1 = document.getElementById("name1").value.trim() || "VocÃª";
+    var n1 = document.getElementById("name1").value.trim() || "Você";
     var n2 = document.getElementById("name2").value.trim() || "Namorado";
     var p1 = parseFloat(document.getElementById("init1").value) || 0;
     var p2 = parseFloat(document.getElementById("init2").value) || 0;
@@ -553,7 +553,7 @@
   };
 
   window.saveSettings = function(){
-    var n1 = document.getElementById("edit-name1").value.trim() || "VocÃª";
+    var n1 = document.getElementById("edit-name1").value.trim() || "Você";
     var n2 = document.getElementById("edit-name2").value.trim() || "Namorado";
     var p1 = parseFloat(document.getElementById("edit-init1").value) || 0;
     var p2 = parseFloat(document.getElementById("edit-init2").value) || 0;
@@ -586,8 +586,8 @@
     if(!desc) badFields.push("exp-desc");
     if(!amount || amount <= 0) badFields.push("exp-amount");
     if(badFields.length){
-      var msg = (!desc && (!amount||amount<=0)) ? "Escreva uma descriÃ§Ã£o e um valor vÃ¡lido."
-        : (!desc ? "Escreva uma descriÃ§Ã£o para o gasto." : "Informe um valor vÃ¡lido, maior que zero.");
+      var msg = (!desc && (!amount||amount<=0)) ? "Escreva uma descrição e um valor válido."
+        : (!desc ? "Escreva uma descrição para o gasto." : "Informe um valor válido, maior que zero.");
       setFieldError(badFields, "exp-error", msg);
       return;
     }
@@ -616,7 +616,7 @@
     var personEl = document.querySelector('input[name="dep-person"]:checked');
     var amount = parseFloat(amountEl.value);
     if(!amount || amount <= 0){
-      setFieldError(["dep-amount"], "dep-error", "Informe um valor vÃ¡lido, maior que zero.");
+      setFieldError(["dep-amount"], "dep-error", "Informe um valor válido, maior que zero.");
       return;
     }
     clearFieldError(["dep-amount"], "dep-error");
@@ -625,7 +625,7 @@
       type: "deposit",
       person: personEl ? personEl.value : "p1",
       amount: amount,
-      desc: (descEl.value.trim() || "reforÃ§o de saldo"),
+      desc: (descEl.value.trim() || "reforço de saldo"),
       date: new Date().toISOString()
     });
     save();
@@ -671,7 +671,7 @@
     var text = textEl.value.trim();
     var errId = "day-error-" + iso;
     if(!text){
-      setFieldError(["day-text-" + iso], errId, "Escreva o que vÃ£o fazer nesse dia.");
+      setFieldError(["day-text-" + iso], errId, "Escreva o que vão fazer nesse dia.");
       return;
     }
     var hasCost = document.getElementById("has-cost-" + iso).checked;
@@ -679,7 +679,7 @@
     var whoEl = document.getElementById("day-costwho-" + iso);
     var costRaw = parseFloat(costEl.value);
     if(hasCost && (!costRaw || costRaw <= 0)){
-      setFieldError(["day-cost-" + iso], errId, "Informe um valor vÃ¡lido para o custo, ou desmarque a opÃ§Ã£o.");
+      setFieldError(["day-cost-" + iso], errId, "Informe um valor válido para o custo, ou desmarque a opção.");
       return;
     }
     clearFieldError(["day-text-" + iso, "day-cost-" + iso], errId);
@@ -697,7 +697,7 @@
       var lbl = dayLabel(iso);
       state.transactions.unshift({
         id: "day-" + id,
-        desc: text + " Â· " + lbl.num + " " + lbl.month,
+        desc: text + " · " + lbl.num + " " + lbl.month,
         amount: cost,
         forWhom: activity.costWho,
         category: "passeio",
@@ -739,13 +739,13 @@
     return (
       '<div class="cover">' +
         '<div class="stars"></div>' +
-        '<div class="cover-eyebrow">diÃ¡rio de viagem</div>' +
+        '<div class="cover-eyebrow">diário de viagem</div>' +
         '<div class="cover-title">Chile</div>' +
-        '<div class="cover-dates">10 â€” 17 DE AGOSTO, 2026</div>' +
+        '<div class="cover-dates">10 — 17 DE AGOSTO, 2026</div>' +
         '<div class="cover-ridge">' + ridgeSVG(90, .9) + '</div>' +
         '<div class="cover-card">' +
-          '<p class="cover-text">Um espaÃ§o pra organizar a carteira compartilhada, a mala e o roteiro de cada dia. Vamos comeÃ§ar?</p>' +
-          '<button class="primary-btn" onclick="openDiary()">Abrir o diÃ¡rio</button>' +
+          '<p class="cover-text">Um espaço pra organizar a carteira compartilhada, a mala e o roteiro de cada dia. Vamos começar?</p>' +
+          '<button class="primary-btn" onclick="openDiary()">Abrir o diário</button>' +
         '</div>' +
       '</div>'
     );
@@ -757,9 +757,9 @@
       '<div class="rel" style="min-height:100vh;">' +
         '<div class="stars"></div>' +
         '<div class="setup-card">' +
-          '<div class="eyebrow">primeira pÃ¡gina</div>' +
-          '<h1 class="h1">Quem vai colocar o quÃª?</h1>' +
-          '<p class="subtext">Uma conta Wise, dois nomes. SÃ³ pra manter o saldo certinho de cada um durante a viagem.</p>' +
+          '<div class="eyebrow">primeira página</div>' +
+          '<h1 class="h1">Quem vai colocar o quê?</h1>' +
+          '<p class="subtext">Uma conta Wise, dois nomes. Só pra manter o saldo certinho de cada um durante a viagem.</p>' +
           '<div class="field-row">' +
             '<div class="field">' +
               '<label class="label">Pessoa 1</label>' +
@@ -772,7 +772,7 @@
               '<input class="input" id="init2" type="number" min="0" step="1" inputmode="numeric" placeholder="quanto colocou (CLP)">' +
             '</div>' +
           '</div>' +
-          '<button class="primary-btn" onclick="finishSetup()">ComeÃ§ar a viagem</button>' +
+          '<button class="primary-btn" onclick="finishSetup()">Começar a viagem</button>' +
         '</div>' +
       '</div>'
     );
@@ -807,8 +807,8 @@
   function mainHTML(){
     var html = '<div class="rel">';
     html += '<div class="stars"></div>';
-    html += '<div class="top-row"><div><div class="greet-label">diÃ¡rio do Chile</div><div class="greet-title">Boa viagem</div></div>' +
-      '<button class="gear-btn" onclick="openSettings()" aria-label="ConfiguraÃ§Ãµes">' + ICONS.gear(17) + '</button></div>';
+    html += '<div class="top-row"><div><div class="greet-label">diário do Chile</div><div class="greet-title">Boa viagem</div></div>' +
+      '<button class="gear-btn" onclick="openSettings()" aria-label="Configurações">' + ICONS.gear(17) + '</button></div>';
     html += '<div class="header-ridge">' + ridgeSVG(20, .5) + '</div>';
 
     var cd = computeCountdown();
@@ -837,7 +837,7 @@
       '<button class="tab-btn' + (currentTab==="carteira"?" active":"") + '" onclick="switchTab(\'carteira\')"><span class="tab-icon">' + ICONS.wallet(17) + '</span>Carteira</button>' +
       '<button class="tab-btn' + (currentTab==="checklist"?" active":"") + '" onclick="switchTab(\'checklist\')"><span class="tab-icon">' + ICONS.checklist(17) + '</span>Checklist</button>' +
       '<button class="tab-btn' + (currentTab==="calendario"?" active":"") + '" onclick="switchTab(\'calendario\')"><span class="tab-icon">' + ICONS.calendar(17) + '</span>Roteiro</button>' +
-      '<button class="tab-btn' + (currentTab==="conversao"?" active":"") + '" onclick="switchTab(\'conversao\')"><span class="tab-icon">' + ICONS.swap(17) + '</span>CÃ¢mbio</button>' +
+      '<button class="tab-btn' + (currentTab==="conversao"?" active":"") + '" onclick="switchTab(\'conversao\')"><span class="tab-icon">' + ICONS.swap(17) + '</span>Câmbio</button>' +
       '</nav>';
 
     if(currentTab === "carteira") {
@@ -856,7 +856,7 @@
       html += settingsHTML();
     }
 
-    html += '<div class="footer-note">seus dados ficam salvos sÃ³ neste navegador, neste aparelho</div>';
+    html += '<div class="footer-note">seus dados ficam salvos só neste navegador, neste aparelho</div>';
     html += '</div>';
     return html;
   }
@@ -865,8 +865,8 @@
     var p = state.people;
     return (
       '<div class="card">' +
-      '<div class="card-eyebrow">preferÃªncias</div>' +
-      '<div class="card-title">ConfiguraÃ§Ãµes</div>' +
+      '<div class="card-eyebrow">preferências</div>' +
+      '<div class="card-title">Configurações</div>' +
       '<label class="label">Nome pessoa 1</label>' +
       '<input class="input" id="edit-name1" value="' + esc(p[0]) + '">' +
       '<label class="label">Saldo inicial pessoa 1 (CLP)</label>' +
@@ -875,7 +875,7 @@
       '<input class="input" id="edit-name2" value="' + esc(p[1]) + '">' +
       '<label class="label">Saldo inicial pessoa 2 (CLP)</label>' +
       '<input class="input" id="edit-init2" type="number" value="' + state.initial.p2 + '">' +
-      '<button class="primary-btn" onclick="saveSettings()">Salvar alteraÃ§Ãµes</button>' +
+      '<button class="primary-btn" onclick="saveSettings()">Salvar alterações</button>' +
             '<div class="backup-actions"><button class="secondary-btn" onclick="exportBackup()">Baixar backup</button><label class="secondary-btn" style="display:flex;align-items:center;justify-content:center;cursor:pointer">Restaurar backup<input class="file-input" type="file" accept="application/json,.json" onchange="importBackup(this)"></label></div>' +
       '<div class="backup-note" id="backup-note">Seus dados ficam apenas neste aparelho. Faca um backup antes de trocar ou limpar o navegador.</div>' +
       '</div>'
@@ -888,11 +888,11 @@
     var html = "";
 
     html += '<div class="hero-card">' +
-      '<div class="hero-label">ainda dÃ¡ pra gastar</div>' +
+      '<div class="hero-label">ainda dá pra gastar</div>' +
       '<div class="hero-value">' + fmt(b.totalRemaining) + '</div>' +
-      '<div class="hero-sub">colocado ao todo ' + fmt(b.totalPot) + ' Â· jÃ¡ foi ' + fmt(b.totalSpent) + '</div>' +
+      '<div class="hero-sub">colocado ao todo ' + fmt(b.totalPot) + ' · já foi ' + fmt(b.totalSpent) + '</div>' +
       '<div class="hero-divider"></div>' +
-      '<div class="race-label">' + (b.gap < 2 ? "gastos bem equilibrados" : (esc(b.leaderIsP1?people[0]:people[1]) + " estÃ¡ gastando mais rÃ¡pido")) + '</div>' +
+      '<div class="race-label">' + (b.gap < 2 ? "gastos bem equilibrados" : (esc(b.leaderIsP1?people[0]:people[1]) + " está gastando mais rápido")) + '</div>' +
       '<div class="race-track"><div class="race-fill" style="width:' + (b.leaderIsP1 ? 50+b.gap/2 : 50-b.gap/2) + '%"></div><div class="race-center"></div></div>' +
       '</div>';
 
@@ -902,7 +902,7 @@
       '</div>';
 
     if(b.remainingP1 < 0 || b.remainingP2 < 0){
-      html += '<div class="warning">' + (b.remainingP1<0 ? esc(people[0]) : esc(people[1])) + ' jÃ¡ passou do valor reservado</div>';
+      html += '<div class="warning">' + (b.remainingP1<0 ? esc(people[0]) : esc(people[1])) + ' já passou do valor reservado</div>';
     }
 
     html += categoryBreakdownHTML();
@@ -911,14 +911,14 @@
       html += '<button class="deposit-open-btn" onclick="toggleDepositForm(true)">' + ICONS.plus(14) + ' adicionar mais dinheiro na conta</button>';
     } else {
       html += '<div class="deposit-card">' +
-        '<div class="card-eyebrow">reforÃ§o</div>' +
-        '<div class="card-title">ReforÃ§ar o saldo</div>' +
+        '<div class="card-eyebrow">reforço</div>' +
+        '<div class="card-title">Reforçar o saldo</div>' +
         '<div class="whom-row">' +
           '<input class="whom-radio" type="radio" name="dep-person" id="dep-p1" value="p1" checked><label class="whom-btn" for="dep-p1">' + esc(people[0]) + '</label>' +
           '<input class="whom-radio" type="radio" name="dep-person" id="dep-p2" value="p2"><label class="whom-btn" for="dep-p2">' + esc(people[1]) + '</label>' +
         '</div>' +
         '<input class="input" id="dep-amount" type="number" min="0" step="1" inputmode="numeric" placeholder="valor CLP" onkeydown="if(event.key===\'Enter\')addDeposit()">' +
-        '<input class="input" id="dep-desc" placeholder="nota (opcional) Â· ex: transferi mais na Wise" onkeydown="if(event.key===\'Enter\')addDeposit()">' +
+        '<input class="input" id="dep-desc" placeholder="nota (opcional) · ex: transferi mais na Wise" onkeydown="if(event.key===\'Enter\')addDeposit()">' +
         '<div class="field-error" id="dep-error"></div>' +
         '<div style="display:flex; gap:8px;">' +
           '<button class="primary-btn sage" onclick="addDeposit()">Adicionar</button>' +
@@ -928,9 +928,9 @@
     }
 
     html += '<div class="card">' +
-      '<div class="card-eyebrow">novo lanÃ§amento</div>' +
+      '<div class="card-eyebrow">novo lançamento</div>' +
       '<div class="card-title">Registrar um gasto</div>' +
-      '<input class="input" id="exp-desc" placeholder="descriÃ§Ã£o Â· ex: jantar em ValparaÃ­so" onkeydown="if(event.key===\'Enter\')addTransaction()">' +
+      '<input class="input" id="exp-desc" placeholder="descrição · ex: jantar em Valparaíso" onkeydown="if(event.key===\'Enter\')addTransaction()">' +
       '<input class="input" id="exp-amount" type="number" min="0" step="1" inputmode="numeric" placeholder="valor CLP" onkeydown="if(event.key===\'Enter\')addTransaction()">' +
       '<div class="cat-row">' + CATS.map(function(c,i){
         return '<input class="chip-radio" type="radio" name="exp-cat" id="cat-'+c.id+'" value="'+c.id+'"' + (i===0?" checked":"") + '>' +
@@ -945,7 +945,7 @@
       '<button class="primary-btn" onclick="addTransaction()">Adicionar gasto</button>' +
       '</div>';
 
-    html += '<div class="card"><div class="card-eyebrow">histÃ³rico</div><div class="card-title">Tudo que jÃ¡ rolou</div>';
+    html += '<div class="card"><div class="card-eyebrow">histórico</div><div class="card-title">Tudo que já rolou</div>';
     if(state.transactions.length === 0){
       html += '<div class="empty-state">Ainda nada por aqui.</div>';
     }
@@ -953,7 +953,7 @@
       if(t.type === "deposit"){
         var pl = t.person==="p1" ? people[0] : people[1];
         html += '<div class="tx-row"><div class="tx-icon" style="background:var(--andes-soft); color:var(--andes-bright)">' + ICONS.plus(14) + '</div>' +
-          '<div class="tx-left"><div class="tx-desc">' + esc(t.desc) + '</div><div class="tx-meta">creditado para ' + esc(pl) + ' Â· ' + fmtWhen(t.date) + '</div></div>' +
+          '<div class="tx-left"><div class="tx-desc">' + esc(t.desc) + '</div><div class="tx-meta">creditado para ' + esc(pl) + ' · ' + fmtWhen(t.date) + '</div></div>' +
           '<div class="tx-right"><span class="tx-amount" style="color:var(--andes-bright)">+' + fmt(t.amount) + '</span>' +
           '<button class="del-btn" onclick="deleteTransaction(\'' + t.id + '\')" aria-label="Excluir">' + ICONS.close(12) + '</button></div></div>';
         return;
@@ -962,7 +962,7 @@
       var whomLabel = t.forWhom==="split" ? "dividido" : (t.forWhom==="p1"?people[0]:people[1]);
       var iconSvg = t.fromDay ? ICONS.ticket(14) : cat.icon(14);
       html += '<div class="tx-row"><div class="tx-icon" style="background:' + cat.bg + '; color:' + cat.ink + '">' + iconSvg + '</div>' +
-        '<div class="tx-left"><div class="tx-desc">' + esc(t.desc) + '</div><div class="tx-meta">' + esc(whomLabel) + ' Â· ' + fmtWhen(t.date) + '</div></div>' +
+        '<div class="tx-left"><div class="tx-desc">' + esc(t.desc) + '</div><div class="tx-meta">' + esc(whomLabel) + ' · ' + fmtWhen(t.date) + '</div></div>' +
         '<div class="tx-right"><span class="tx-amount">' + fmt(t.amount) + '</span>' +
         '<button class="del-btn" onclick="deleteTransaction(\'' + t.id + '\')" aria-label="Excluir">' + ICONS.close(12) + '</button></div></div>';
     });
@@ -1020,12 +1020,12 @@
     var pct = total ? (done/total)*100 : 0;
     var html = '<div class="card">' +
       '<div class="card-eyebrow">antes de embarcar</div>' +
-      '<div class="card-title">JÃ¡ pegamos tudo?</div>' +
+      '<div class="card-title">Já pegamos tudo?</div>' +
       '<div class="checklist-progress">' + done + ' de ' + total + ' prontos</div>' +
       '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
       '<div style="margin-top:18px;">';
     if(total === 0){
-      html += '<div class="empty-state">Nada na lista ainda Â· passaporte, adaptador, casaco...</div>';
+      html += '<div class="empty-state">Nada na lista ainda · passaporte, adaptador, casaco...</div>';
     }
     state.checklist.forEach(function(item){
       html += '<div class="check-row">' +
@@ -1047,27 +1047,27 @@
 
   function roteiroHTML(){
     var people = state.people;
-    var html = '<div class="roteiro-intro"><div class="card-eyebrow">dia a dia</div><div class="card-title">Roteiro da viagem</div><div class="roteiro-sub">10 â€” 17 DE AGOSTO, 2026</div></div>';
+    var html = '<div class="roteiro-intro"><div class="card-eyebrow">dia a dia</div><div class="card-title">Roteiro da viagem</div><div class="roteiro-sub">10 — 17 DE AGOSTO, 2026</div></div>';
 
     TRIP_DATES.forEach(function(iso, idx){
       var lbl = dayLabel(iso);
       var items = state.days[iso] || [];
       html += '<div class="day-card">' +
-        '<div class="day-header"><div class="day-num">' + lbl.num + '</div><div><div class="day-weekday">' + esc(lbl.weekday) + '</div><div class="day-month">' + esc(lbl.month) + ' Â· 2026</div></div></div>';
+        '<div class="day-header"><div class="day-num">' + lbl.num + '</div><div><div class="day-weekday">' + esc(lbl.weekday) + '</div><div class="day-month">' + esc(lbl.month) + ' · 2026</div></div></div>';
 
       if(items.length === 0){
         html += '<div class="empty-state-small">' + esc(DAY_QUOTES[idx % DAY_QUOTES.length]) + '</div>';
       }
       items.forEach(function(it){
-        html += '<div class="day-item-row"><span class="day-item-dot"' + (it.cost>0?' style="color:var(--gold)"':'') + '>' + (it.cost>0?ICONS.ticket(13):"Â·") + '</span>' +
+        html += '<div class="day-item-row"><span class="day-item-dot"' + (it.cost>0?' style="color:var(--gold)"':'') + '>' + (it.cost>0?ICONS.ticket(13):"·") + '</span>' +
           '<span class="day-item-text">' + esc(it.text) +
-          (it.cost>0 ? (' <span class="day-item-cost">Â· ' + fmt(it.cost) + ' (' + (it.costWho==="split"?"dividido":(it.costWho==="p1"?esc(people[0]):esc(people[1]))) + ')</span>') : "") +
+          (it.cost>0 ? (' <span class="day-item-cost">· ' + fmt(it.cost) + ' (' + (it.costWho==="split"?"dividido":(it.costWho==="p1"?esc(people[0]):esc(people[1]))) + ')</span>') : "") +
           '</span>' +
           '<button class="del-btn" onclick="deleteDayActivity(\'' + iso + '\',\'' + it.id + '\',' + (it.txId ? "'"+it.txId+"'" : "null") + ')" aria-label="Excluir">' + ICONS.close(12) + '</button>' +
           '</div>';
       });
 
-      html += '<input class="day-input" style="margin-top:10px" id="day-text-' + iso + '" placeholder="o que vÃ£o fazer nesse dia" onkeydown="if(event.key===\'Enter\')addDayActivity(\'' + iso + '\')">' +
+      html += '<input class="day-input" style="margin-top:10px" id="day-text-' + iso + '" placeholder="o que vão fazer nesse dia" onkeydown="if(event.key===\'Enter\')addDayActivity(\'' + iso + '\')">' +
         '<label class="cost-toggle"><input type="checkbox" id="has-cost-' + iso + '" onchange="toggleCostRow(\'' + iso + '\')" style="margin-right:6px"> vai custar ingresso / entrada?</label>' +
         '<div class="cost-row" id="cost-row-' + iso + '" style="display:none">' +
           '<input class="day-input" style="flex:1" id="day-cost-' + iso + '" type="number" min="0" step="1" inputmode="numeric" placeholder="valor CLP">' +
@@ -1080,7 +1080,7 @@
         '</div>';
     });
 
-    html += '<div class="footer">oito dias, um roteiro sÃ³</div>';
+    html += '<div class="footer">oito dias, um roteiro só</div>';
     return html;
   }
 
@@ -1090,7 +1090,7 @@
       '<option value="p2">' + esc(people[1]) + '</option>';
   }
 
-  // taxa de cÃ¢mbio agora vem de state.rate (editÃ¡vel na aba CÃ¢mbio), nÃ£o mais fixa no cÃ³digo
+  // taxa de câmbio agora vem de state.rate (editável na aba Câmbio), não mais fixa no código
 
   function fmtBRL(n){
     var v = Math.max(n, 0);
@@ -1127,7 +1127,7 @@
     if(!el) return;
     var per1000 = parseFloat(el.value);
     if(!per1000 || per1000 <= 0){
-      setFieldError(["conv-rate-input"], "rate-error", "Informe uma cotaÃ§Ã£o vÃ¡lida.");
+      setFieldError(["conv-rate-input"], "rate-error", "Informe uma cotação válida.");
       return;
     }
     clearFieldError(["conv-rate-input"], "rate-error");
@@ -1140,13 +1140,13 @@
   };
 
   function rateNoteText(){
-    return "R$ 1 â‰ˆ " + fmtCLPplain(1 / state.rate) + " Â· atualize ao lado se a cotaÃ§Ã£o do dia mudar";
+    return "R$ 1 ≈ " + fmtCLPplain(1 / state.rate) + " · atualize ao lado se a cotação do dia mudar";
   }
 
   function conversaoHTML(){
     var html = '<div class="card">' +
-      '<div class="card-eyebrow">pesos â†” reais</div>' +
-      '<div class="card-title">ConversÃ£o rÃ¡pida</div>' +
+      '<div class="card-eyebrow">pesos ↔ reais</div>' +
+      '<div class="card-title">Conversão rápida</div>' +
       '<div class="conv-rate-edit">' +
         '<label for="conv-rate-input">1.000 CLP valem quantos reais hoje?</label>' +
         '<input id="conv-rate-input" type="number" min="0" step="0.01" inputmode="decimal" value="' + (state.rate*1000).toFixed(2) + '" onchange="updateExchangeRate()">' +
@@ -1157,16 +1157,16 @@
       '<label class="label">quanto custa em pesos chilenos (CLP)</label>' +
       '<input class="input" id="conv-clp" type="number" min="0" step="1" inputmode="numeric" placeholder="ex: 8500" oninput="updateConversionFromCLP()">' +
       '<div class="conv-result">' +
-        '<div class="conv-result-label">dÃ¡ em reais</div>' +
+        '<div class="conv-result-label">dá em reais</div>' +
         '<div class="conv-result-value" id="conv-brl-result">R$ 0,00</div>' +
       '</div>' +
 
-      '<div class="conv-divider">ou o caminho contrÃ¡rio</div>' +
+      '<div class="conv-divider">ou o caminho contrário</div>' +
 
       '<label class="label">tenho esse valor em reais (BRL)</label>' +
       '<input class="input" id="conv-brl" type="number" min="0" step="0.01" inputmode="decimal" placeholder="ex: 50" oninput="updateConversionFromBRL()">' +
       '<div class="conv-result">' +
-        '<div class="conv-result-label">dÃ¡ em pesos chilenos</div>' +
+        '<div class="conv-result-label">dá em pesos chilenos</div>' +
         '<div class="conv-result-value" id="conv-clp-result">$ 0</div>' +
       '</div>' +
       '</div>';
