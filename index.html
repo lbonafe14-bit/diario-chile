@@ -117,8 +117,8 @@
   .countdown-sep{font-weight:600; font-size:16px; color:var(--muted-dim); position:relative; z-index:1;}
 
   /* ---- tab bar: segmented pill control ---- */
-  .tab-bar{display:flex; gap:4px; margin:20px 20px 0; background:var(--bg-raised); border:1px solid var(--border); border-radius:14px; padding:4px;}
-  .tab-btn{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:9px 2px; border:none; border-radius:10px; background:transparent; color:var(--muted); font-size:10.5px; font-weight:600; letter-spacing:.2px; transition:background .15s ease, color .15s ease;}
+  .tab-bar{display:flex; gap:4px; margin:20px 20px 0; background:var(--bg-raised); border:1px solid var(--border); border-radius:14px; padding:4px; flex-wrap:wrap;}
+  .tab-btn{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:9px 2px; border:none; border-radius:10px; background:transparent; color:var(--muted); font-size:10.5px; font-weight:600; letter-spacing:.2px; transition:background .15s ease, color .15s ease; min-width:56px;}
   .tab-btn .tab-icon{display:flex; align-items:center; justify-content:center;}
   .tab-btn.active{background:var(--copper); color:#1A1000;}
 
@@ -271,6 +271,21 @@
     .conv-rate-edit{align-items:flex-start;flex-direction:column;}.conv-rate-edit input{width:100%;text-align:left;}
   }
   @media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important;}}
+
+  /* ---- mapa ---- */
+  .map-wrap{position:relative; margin:18px 20px 0; background:var(--bg-card); border-radius:var(--radius); padding:16px 16px 18px; box-shadow:var(--shadow); border:1px solid var(--border);}
+  .map-canvas{width:100%; height:360px; border-radius:10px; overflow:hidden; border:1px solid var(--border-bright); background:var(--bg-raised);}
+  .map-legend{margin-top:14px; max-height:260px; overflow-y:auto;}
+  .map-stop-row{display:flex; align-items:flex-start; gap:10px; padding:8px 4px; border-bottom:1px solid var(--border); cursor:pointer;}
+  .map-stop-row:last-child{border-bottom:none;}
+  .map-stop-num{width:22px; height:22px; border-radius:50%; background:var(--copper-soft); color:var(--copper-bright); font-family:var(--font-mono); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;}
+  .map-stop-body{flex:1; min-width:0;}
+  .map-stop-name{font-size:13px; font-weight:600; color:var(--ink);}
+  .map-stop-note{font-size:11.5px; color:var(--muted); margin-top:2px; line-height:1.4;}
+  .leaflet-popup-content-wrapper{background:var(--bg-card); color:var(--ink); border-radius:9px;}
+  .leaflet-popup-tip{background:var(--bg-card);}
+  .leaflet-popup-content{font-family:var(--font-body); font-size:12.5px;}
+  .leaflet-container{background:var(--bg-raised);}
 </style>
 </head>
 <body>
@@ -298,7 +313,8 @@
     check: function(s){ return '<svg viewBox="0 0 20 20" width="'+s+'" height="'+s+'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5l4 4 8-9"/></svg>'; },
     close: function(s){ return '<svg viewBox="0 0 20 20" width="'+s+'" height="'+s+'" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15"/></svg>'; },
     plus: function(s){ return '<svg viewBox="0 0 20 20" width="'+s+'" height="'+s+'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>'; },
-    dot: function(s){ return '<svg viewBox="0 0 20 20" width="'+s+'" height="'+s+'" fill="currentColor"><circle cx="10" cy="10" r="2.4"/></svg>'; }
+    dot: function(s){ return '<svg viewBox="0 0 20 20" width="'+s+'" height="'+s+'" fill="currentColor"><circle cx="10" cy="10" r="2.4"/></svg>'; },
+    pin: function(s){ return '<svg viewBox="0 0 20 20" width="'+s+'" height="'+s+'" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18s6-6.5 6-10.5A6 6 0 104 7.5C4 11.5 10 18 10 18z"/><circle cx="10" cy="7.5" r="2"/></svg>'; }
   };
 
   var CATS = [
@@ -320,6 +336,28 @@
   ];
 
   var TRIP_DATES = ["2026-08-10","2026-08-11","2026-08-12","2026-08-13","2026-08-14","2026-08-15","2026-08-16","2026-08-17"];
+
+  // roteiro de terça-feira, 11 de agosto — centro histórico de Santiago
+  var MAP_STOPS = [
+    { name:"Palácio de La Moneda", lat:-33.4424189, lng:-70.6539455, note:"Sede do governo chileno. Veja a troca da guarda, se der." },
+    { name:"Paseo Bulnes", lat:-33.4482441, lng:-70.6528336, note:"" },
+    { name:"Palacio Cousiño", lat:-33.4521614, lng:-70.6566284, note:"Reserve o tour com antecedência." },
+    { name:"Igreja dos Sacramentinos", lat:-33.4514100, lng:-70.6493000, note:"Fica fechada durante a semana, só a capela abre." },
+    { name:"Palacio Pereira", lat:-33.4402180, lng:-70.6582542, note:"Café interno bem avaliado." },
+    { name:"Bolsa de Comercio de Santiago", lat:-33.4425075, lng:-70.6516810, note:"" },
+    { name:"Nueva York 29 Business Coffee", lat:-33.4429770, lng:-70.6510155, note:"Pausa para café." },
+    { name:"Museu Chileno de Arte Pré-Colombiana", lat:-33.4386677, lng:-70.6523921, note:"Reserve 1,5–2h para a visita." },
+    { name:"Paseo Phillips", lat:-33.4377177, lng:-70.6494866, note:"" },
+    { name:"Plaza de Armas", lat:-33.4378234, lng:-70.6505019, note:"Coração da cidade, atenção aos pertences." },
+    { name:"Museu Histórico Nacional", lat:-33.4370444, lng:-70.6506998, note:"Entrada gratuita." },
+    { name:"Basilica de la Merced", lat:-33.4382307, lng:-70.6465699, note:"" },
+    { name:"Teatro Municipal de Santiago", lat:-33.4409951, lng:-70.6475164, note:"" },
+    { name:"Barrio París Londres", lat:-33.4446231, lng:-70.6484288, note:"Ruelas charmosas, ótima parada para fotos." },
+    { name:"Igreja de São Francisco", lat:-33.4434164, lng:-70.6475408, note:"Igreja mais antiga de Santiago." },
+    { name:"Biblioteca Nacional do Chile", lat:-33.4422661, lng:-70.6456509, note:"Entrada gratuita, arquitetura linda." },
+    { name:"Cerro Santa Lucía", lat:-33.4402778, lng:-70.6433333, note:"Suba até o mirante para a vista da cidade." },
+    { name:"Museu Nacional de Belas Artes", lat:-33.4353053, lng:-70.6435365, note:"Entrada gratuita, ótima arquitetura." }
+  ];
 
   // signature element: andes ridge silhouette, reused on cover / header / footer
   function ridgeSVG(h, opacity){
@@ -356,6 +394,7 @@
   var state = loadState();
   var currentTab = "carteira";
   var depositOpen = false;
+  var mapInstance = null;
 
   function loadState(){
     try{
@@ -733,6 +772,9 @@
     }
     app.innerHTML = mainHTML();
     setupCountdownTick();
+    if(currentTab === "mapa"){
+      initMap();
+    }
   }
 
   function coverHTML(){
@@ -837,6 +879,7 @@
       '<button class="tab-btn' + (currentTab==="carteira"?" active":"") + '" onclick="switchTab(\'carteira\')"><span class="tab-icon">' + ICONS.wallet(17) + '</span>Carteira</button>' +
       '<button class="tab-btn' + (currentTab==="checklist"?" active":"") + '" onclick="switchTab(\'checklist\')"><span class="tab-icon">' + ICONS.checklist(17) + '</span>Checklist</button>' +
       '<button class="tab-btn' + (currentTab==="calendario"?" active":"") + '" onclick="switchTab(\'calendario\')"><span class="tab-icon">' + ICONS.calendar(17) + '</span>Roteiro</button>' +
+      '<button class="tab-btn' + (currentTab==="mapa"?" active":"") + '" onclick="switchTab(\'mapa\')"><span class="tab-icon">' + ICONS.pin(17) + '</span>Mapa</button>' +
       '<button class="tab-btn' + (currentTab==="conversao"?" active":"") + '" onclick="switchTab(\'conversao\')"><span class="tab-icon">' + ICONS.swap(17) + '</span>Câmbio</button>' +
       '</nav>';
 
@@ -848,6 +891,9 @@
     }
     else if(currentTab === "calendario") {
       html += roteiroHTML();
+    }
+    else if(currentTab === "mapa") {
+      html += mapaHTML();
     }
     else if(currentTab === "conversao") {
       html += conversaoHTML();
@@ -1089,6 +1135,79 @@
       '<option value="p1">' + esc(people[0]) + '</option>' +
       '<option value="p2">' + esc(people[1]) + '</option>';
   }
+
+  function mapaHTML(){
+    var html = '<div class="roteiro-intro"><div class="card-eyebrow">terça-feira · 11 de agosto</div><div class="card-title">Centro histórico de Santiago</div><div class="roteiro-sub">' + MAP_STOPS.length + ' paradas a pé · cerca de 2h, 10 km</div></div>';
+    html += '<div class="map-wrap">' +
+      '<div class="map-canvas" id="leaflet-map"></div>' +
+      '<div class="map-legend">' +
+      MAP_STOPS.map(function(s, i){
+        return '<div class="map-stop-row" onclick="focusMapStop(' + i + ')">' +
+          '<div class="map-stop-num">' + (i+1) + '</div>' +
+          '<div class="map-stop-body"><div class="map-stop-name">' + esc(s.name) + '</div>' +
+          (s.note ? '<div class="map-stop-note">' + esc(s.note) + '</div>' : '') +
+          '</div></div>';
+      }).join('') +
+      '</div>' +
+      '</div>';
+    html += '<div class="footer">um dia inteiro pelas ruas do centro</div>';
+    return html;
+  }
+
+  var mapMarkers = [];
+
+  function loadLeaflet(callback){
+    if(window.L){ callback(); return; }
+    var css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css";
+    document.head.appendChild(css);
+    var script = document.createElement("script");
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js";
+    script.onload = callback;
+    document.head.appendChild(script);
+  }
+
+  function initMap(){
+    loadLeaflet(function(){
+      var el = document.getElementById("leaflet-map");
+      if(!el) return;
+      if(mapInstance){ mapInstance.remove(); mapInstance = null; }
+      mapMarkers = [];
+
+      mapInstance = L.map("leaflet-map", { scrollWheelZoom:false });
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+        attribution: "&copy; OpenStreetMap &copy; CARTO",
+        maxZoom: 19
+      }).addTo(mapInstance);
+
+      var latlngs = MAP_STOPS.map(function(s){ return [s.lat, s.lng]; });
+
+      L.polyline(latlngs, { color:"#CE7A34", weight:3, opacity:.85, dashArray:"1,7", lineCap:"round" }).addTo(mapInstance);
+
+      MAP_STOPS.forEach(function(s, i){
+        var icon = L.divIcon({
+          className: "",
+          html: '<div style="width:24px;height:24px;border-radius:50%;background:#CE7A34;color:#1A1000;font-family:ui-monospace,monospace;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #1A2124;box-shadow:0 2px 6px rgba(0,0,0,.4)">' + (i+1) + '</div>',
+          iconSize: [24,24],
+          iconAnchor: [12,12]
+        });
+        var m = L.marker([s.lat, s.lng], { icon: icon }).addTo(mapInstance);
+        m.bindPopup("<strong>" + (i+1) + ". " + esc(s.name) + "</strong>" + (s.note ? "<br>" + esc(s.note) : ""));
+        mapMarkers.push(m);
+      });
+
+      var bounds = L.latLngBounds(latlngs);
+      mapInstance.fitBounds(bounds, { padding:[26,26] });
+    });
+  }
+
+  window.focusMapStop = function(i){
+    if(!mapInstance || !mapMarkers[i]) return;
+    var s = MAP_STOPS[i];
+    mapInstance.setView([s.lat, s.lng], 16, { animate:true });
+    mapMarkers[i].openPopup();
+  };
 
   // taxa de câmbio agora vem de state.rate (editável na aba Câmbio), não mais fixa no código
 
